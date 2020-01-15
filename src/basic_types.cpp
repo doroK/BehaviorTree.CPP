@@ -213,6 +213,136 @@ PortDirection convertFromString<PortDirection>(StringView str)
 }
 
 
+template<> 
+joints convertFromString<joints>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    if (parts.size() != 7){
+        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
+    }
+    else{
+        joints output;
+        for (uint i=0; i<7; i++) {
+            output.at(i) = convertFromString<double>(parts[i]);
+        }
+        return output;
+    }
+}
+
+template<> 
+tud_motion_msgs::KoboControlMode convertFromString<tud_motion_msgs::KoboControlMode>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    if (parts.size() != 1){
+        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
+    }
+    else{
+        tud_motion_msgs::KoboControlMode output;
+        output.id = tud_motion_msgs::KoboControlMode::_id_type(convertFromString<uint>(parts[0]));
+        return output;
+    }
+}
+
+template<> 
+tud_motion_msgs::KoboRobotGroup::_id_type convertFromString<tud_motion_msgs::KoboRobotGroup::_id_type>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    if (parts.size() != 1){
+        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
+    }
+    else{
+        return tud_motion_msgs::KoboRobotGroup::_id_type(convertFromString<uint>(parts[0]));
+    }
+}
+
+template<>
+tud_motion_msgs::KoboRobotGroup convertFromString<tud_motion_msgs::KoboRobotGroup>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    if (parts.size() != 1){
+        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
+    }
+    else{
+        tud_motion_msgs::KoboRobotGroup output;
+        output.id = tud_motion_msgs::KoboRobotGroup::_id_type(convertFromString<uint>(parts[0]));
+        return output;
+    }
+}
+
+template<>
+std_msgs::Header convertFromString<std_msgs::Header>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    if (parts.size() != 4){
+        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
+    }
+    else{
+        std_msgs::Header output;
+        output.seq = convertFromString<uint>(parts[0]);
+        output.stamp.sec = convertFromString<uint>(parts[1]);
+        output.stamp.nsec = convertFromString<uint>(parts[2]);
+        output.frame_id = std::string(parts[3]);
+        return output;
+    }
+}
+
+template<>
+geometry_msgs::Pose convertFromString<geometry_msgs::Pose>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    if (parts.size() != 7){
+        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
+    }
+    else{
+        geometry_msgs::Pose output;
+        output.position.x = convertFromString<double>(parts[0]);
+        output.position.y = convertFromString<double>(parts[1]);
+        output.position.z = convertFromString<double>(parts[2]);
+        output.orientation.w = convertFromString<double>(parts[3]);
+        output.orientation.x = convertFromString<double>(parts[4]);
+        output.orientation.y = convertFromString<double>(parts[5]);
+        output.orientation.z = convertFromString<double>(parts[6]);
+        return output;
+    }
+}
+
+template<>
+geometry_msgs::PoseStamped convertFromString<geometry_msgs::PoseStamped>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    if (parts.size() != 11){
+        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
+    }
+    else{
+        geometry_msgs::PoseStamped output;
+        output.header.seq = convertFromString<uint>(parts[0]);
+        output.header.stamp.sec = convertFromString<uint>(parts[1]);
+        output.header.stamp.nsec = convertFromString<uint>(parts[2]);
+        output.header.frame_id = std::string(parts[3]);
+        output.pose.position.x = convertFromString<double>(parts[4]);
+        output.pose.position.y = convertFromString<double>(parts[5]);
+        output.pose.position.z = convertFromString<double>(parts[6]);
+        output.pose.orientation.w = convertFromString<double>(parts[7]);
+        output.pose.orientation.x = convertFromString<double>(parts[8]);
+        output.pose.orientation.y = convertFromString<double>(parts[9]);
+        output.pose.orientation.z = convertFromString<double>(parts[10]);
+        return output;
+    }
+}
+
+template<>
+std::vector<std::string> convertFromString<std::vector<std::string>>(StringView str)
+{
+    auto parts = splitString(str, ';');
+    std::vector<std::string> output;
+    output.resize(parts.size());
+    for (uint i=0; i<parts.size(); i++) {
+        output.at(i) = std::string(parts[i]);
+    }
+    return output;
+}
+
+
 std::ostream& operator<<(std::ostream& os, const NodeType& type)
 {
     os << toStr(type);

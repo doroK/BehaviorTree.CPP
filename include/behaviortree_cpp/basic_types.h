@@ -15,6 +15,10 @@
 #include "behaviortree_cpp/exceptions.h"
 #include "behaviortree_cpp/utils/expected.hpp"
 #include "behaviortree_cpp/utils/make_unique.hpp"
+#include <geometry_msgs/PoseStamped.h>
+#include <tud_motion_msgs/KoboRobotGroup.h>
+#include <tud_motion_msgs/KoboControlMode.h>
+
 
 namespace BT
 {
@@ -101,6 +105,32 @@ NodeType convertFromString<NodeType>(StringView str);
 
 template <>
 PortDirection convertFromString<PortDirection>(StringView str);
+
+using joints = std::array<double, 7>;
+
+template<> 
+joints convertFromString<joints>(StringView str);
+
+template<>
+tud_motion_msgs::KoboControlMode convertFromString<tud_motion_msgs::KoboControlMode>(StringView str);
+
+template<> 
+tud_motion_msgs::KoboRobotGroup::_id_type convertFromString<tud_motion_msgs::KoboRobotGroup::_id_type>(StringView str);
+
+template<>
+tud_motion_msgs::KoboRobotGroup convertFromString<tud_motion_msgs::KoboRobotGroup>(StringView str);
+
+template<>
+std_msgs::Header convertFromString<std_msgs::Header>(StringView str);
+
+template<>
+geometry_msgs::Pose convertFromString<geometry_msgs::Pose>(StringView str);
+
+template<>
+geometry_msgs::PoseStamped convertFromString<geometry_msgs::PoseStamped>(StringView str);
+
+template<>
+std::vector<std::string> convertFromString<std::vector<std::string>>(StringView str);
 
 
 typedef std::function<Any(StringView)> StringConverter;
