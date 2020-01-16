@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 2.8.12) # version on Ubuntu Trusty
 project(behaviortree_cpp_v3)
 
-if(NOT CMAKE_VERSION VERSION_LESS 3.1)
+message(bla1 !!!!!!!!!! "------------------------------------------")
+if(NOT CMAKE_VERSION VERSION_LESS 3.1) # this happens
+    message(cmake 1 !!!!!!!!!! "------------------------------------------")
     set(CMAKE_CXX_STANDARD 11)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 else()
+    message(cmake 2 !!!!!!!!!! "------------------------------------------")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
@@ -51,6 +54,7 @@ endif()
 find_package(ament_cmake QUIET)
 
 if ( ament_cmake_FOUND )
+    message("ament used !!!!!!!!!! ------------------------------------------")
     find_package(ament_cmake_gtest REQUIRED)
 
     # Not adding -DUSING_ROS since xml_parsing.cpp hasn't been ported to ROS2
@@ -62,10 +66,11 @@ if ( ament_cmake_FOUND )
     set(BUILD_TOOL_INCLUDE_DIRS ${ament_INCLUDE_DIRS})
 
 elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE)
+    message("catkin used !!!!!!!!!! ------------------------------------------")
 
     set(catkin_FOUND 1)
     add_definitions( -DUSING_ROS )
-    find_package(catkin REQUIRED COMPONENTS roslib)
+    find_package(catkin REQUIRED COMPONENTS roslib tud_motion_msgs geometry_msgs)
     find_package(GTest)
 
     message(STATUS "------------------------------------------")
@@ -75,13 +80,15 @@ elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE)
     catkin_package(
         INCLUDE_DIRS include # do not include "3rdparty" here
         LIBRARIES ${BEHAVIOR_TREE_LIBRARY}
-        CATKIN_DEPENDS roslib
+        CATKIN_DEPENDS roslib tud_motion_msgs geometry_msgs
         )
 
+    message(${catkin_INCLUDE_DIRS})
     list(APPEND BEHAVIOR_TREE_EXTERNAL_LIBRARIES ${catkin_LIBRARIES})
     set(BUILD_TOOL_INCLUDE_DIRS ${catkin_INCLUDE_DIRS})
 
 else()
+    message("else used !!!!!!!!!! ------------------------------------------")
     find_package(GTest)
 
     if(NOT GTEST_FOUND)
@@ -170,8 +177,18 @@ if (WIN32)
     add_library(${BEHAVIOR_TREE_LIBRARY} STATIC ${BT_SOURCE} )
 endif()
 
+
+include_directories(include ${catkin_INCLUDE_DIRS})
+#add_dependencies(${BEHAVIOR_TREE_LIBRARY} ${catkin_EXPORTED_TARGETS})
+target_include_directories(${BEHAVIOR_TREE_LIBRARY} PUBLIC ${catkin_INCLUDE_DIRS})
+
 target_link_libraries(${BEHAVIOR_TREE_LIBRARY} PUBLIC
     ${BEHAVIOR_TREE_EXTERNAL_LIBRARIES})
+
+target_link_libraries(${BEHAVIOR_TREE_LIBRARY} PUBLIC
+    ${BEHAVIOR_TREE_EXTERNAL_LIBRARIES})
+
+target_link_libraries(${BEHAVIOR_TREE_LIBRARY} PUBLIC ${catkin_LIBRARIES})
 
 target_compile_definitions(${BEHAVIOR_TREE_LIBRARY} PRIVATE $<$<CONFIG:Debug>:TINYXML2_DEBUG>)
 
