@@ -230,41 +230,15 @@ joints convertFromString<joints>(StringView str)
 }
 
 template<> 
-tud_motion_msgs::KoboControlMode convertFromString<tud_motion_msgs::KoboControlMode>(StringView str)
+panda_motion_msgs::PandaControlMode convertFromString<panda_motion_msgs::PandaControlMode>(StringView str)
 {
     auto parts = splitString(str, ';');
     if (parts.size() != 1){
         throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
     }
     else{
-        tud_motion_msgs::KoboControlMode output;
-        output.id = tud_motion_msgs::KoboControlMode::_id_type(convertFromString<uint>(parts[0]));
-        return output;
-    }
-}
-
-template<> 
-tud_motion_msgs::KoboRobotGroup::_id_type convertFromString<tud_motion_msgs::KoboRobotGroup::_id_type>(StringView str)
-{
-    auto parts = splitString(str, ';');
-    if (parts.size() != 1){
-        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
-    }
-    else{
-        return tud_motion_msgs::KoboRobotGroup::_id_type(convertFromString<uint>(parts[0]));
-    }
-}
-
-template<>
-tud_motion_msgs::KoboRobotGroup convertFromString<tud_motion_msgs::KoboRobotGroup>(StringView str)
-{
-    auto parts = splitString(str, ';');
-    if (parts.size() != 1){
-        throw RuntimeError("invalid input size: " + std::to_string(parts.size()));
-    }
-    else{
-        tud_motion_msgs::KoboRobotGroup output;
-        output.id = tud_motion_msgs::KoboRobotGroup::_id_type(convertFromString<uint>(parts[0]));
+        panda_motion_msgs::PandaControlMode output;
+        output.id = panda_motion_msgs::PandaControlMode::_id_type(convertFromString<uint>(parts[0]));
         return output;
     }
 }

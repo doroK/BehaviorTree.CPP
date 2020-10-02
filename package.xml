@@ -15,8 +15,8 @@
   <build_depend>roslib</build_depend>
   <run_depend>roslib</run_depend>
 
-  <build_depend>tud_motion_msgs</build_depend>
-  <run_depend>tud_motion_msgs</run_depend>
+  <build_depend>panda_motion_msgs</build_depend>
+  <run_depend>panda_motion_msgs</run_depend>
 
   <build_depend>geometry_msgs</build_depend>
   <run_depend>geometry_msgs</run_depend>

@@ -16,8 +16,7 @@
 #include "behaviortree_cpp/utils/expected.hpp"
 #include "behaviortree_cpp/utils/make_unique.hpp"
 #include <geometry_msgs/PoseStamped.h>
-#include <tud_motion_msgs/KoboRobotGroup.h>
-#include <tud_motion_msgs/KoboControlMode.h>
+#include <panda_motion_msgs/PandaControlMode.h>
 
 
 namespace BT
@@ -112,13 +111,7 @@ template<>
 joints convertFromString<joints>(StringView str);
 
 template<>
-tud_motion_msgs::KoboControlMode convertFromString<tud_motion_msgs::KoboControlMode>(StringView str);
-
-template<> 
-tud_motion_msgs::KoboRobotGroup::_id_type convertFromString<tud_motion_msgs::KoboRobotGroup::_id_type>(StringView str);
-
-template<>
-tud_motion_msgs::KoboRobotGroup convertFromString<tud_motion_msgs::KoboRobotGroup>(StringView str);
+panda_motion_msgs::PandaControlMode convertFromString<panda_motion_msgs::PandaControlMode>(StringView str);
 
 template<>
 std_msgs::Header convertFromString<std_msgs::Header>(StringView str);

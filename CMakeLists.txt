@@ -70,7 +70,7 @@ elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE)
 
     set(catkin_FOUND 1)
     add_definitions( -DUSING_ROS )
-    find_package(catkin REQUIRED COMPONENTS roslib tud_motion_msgs geometry_msgs)
+    find_package(catkin REQUIRED COMPONENTS roslib panda_motion_msgs geometry_msgs)
     find_package(GTest)
 
     message(STATUS "------------------------------------------")
@@ -80,7 +80,7 @@ elseif( CATKIN_DEVEL_PREFIX OR CATKIN_BUILD_BINARY_PACKAGE)
     catkin_package(
         INCLUDE_DIRS include # do not include "3rdparty" here
         LIBRARIES ${BEHAVIOR_TREE_LIBRARY}
-        CATKIN_DEPENDS roslib tud_motion_msgs geometry_msgs
+        CATKIN_DEPENDS roslib panda_motion_msgs geometry_msgs
         )
 
     message(${catkin_INCLUDE_DIRS})
